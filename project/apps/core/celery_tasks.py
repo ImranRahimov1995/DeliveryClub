@@ -7,6 +7,7 @@ from celery.signals import worker_ready
 from apps.core.models import CurrencyStorage
 from apps.delivery_club.models import DeliveryRecord
 from apps.core.pydantic_validator import AfterGoogleSheetsApiValidation
+from apps.core.external_services.telegram import TelegramBot
 from apps.core.external_services.currency import get_todays_currency
 from apps.core.external_services.sync_with_google_sheets import (
     get_all_data,
@@ -135,3 +136,16 @@ def delete_unnecessary_records():
         DeliveryRecord.objects.filter(id__in=waiting_for_delete_ids).delete()
 
     return True
+
+
+@app.task
+def send_notification_in_telegram(record_id):
+    """
+        Background задача для отправки уведомление в телеграм.
+
+        Срабатывает при истечении срока поставки.
+
+    """
+    TelegramBot.send_notification(
+        DeliveryRecord.objects.get(id=record_id)
+    )

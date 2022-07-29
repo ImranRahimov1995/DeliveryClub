@@ -22,6 +22,7 @@ INSTALLED_APPS = [
 
     # Local apps
     'apps.delivery_club',
+    "apps.core",
 
     # 3rd-party apps
 

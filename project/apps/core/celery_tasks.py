@@ -51,7 +51,16 @@ def at_ready(sender, **kwargs):
         Это функуия отрабатывает когда worker celery бывает готов,
         т.е после запуска
     """
-    return currency_control.apply_async()
+    _currency, _char_code = get_todays_currency()
+    try:
+        db_record = CurrencyStorage.objects.create(
+            char_code=_char_code,
+            value=_currency
+        )
+    except:
+        return False
+
+    return True
 
 
 @app.task

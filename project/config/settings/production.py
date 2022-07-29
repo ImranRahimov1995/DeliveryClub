@@ -2,11 +2,7 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    os.getenv('PUBLIC_IP', '*'),
-    os.getenv('DOMAIN_NAME', '*'),
-    os.getenv('WWW_DOMAIN_NAME', '*'),
-]
+ALLOWED_HOSTS = ['*']
 
 DATABASES = {
     'default': {
@@ -23,3 +19,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_RESULT_BACKEND = "redis://redis:6379/0"
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN", None)

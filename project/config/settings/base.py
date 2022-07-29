@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     "apps.core",
 
     # 3rd-party apps
+    'django_celery_beat',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [

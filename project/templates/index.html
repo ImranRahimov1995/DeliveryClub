@@ -2,13 +2,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{%static 'main.css'%}">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+  <title>Delivery dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
+
 <body>
-    <script src="{% static 'main.js'%}"></script>
+<nav class="navbar navbar-dark bg-dark extra justify-content-between">
+  <a class="navbar-brand" href="{% url 'dashboard'%}">Delivery dashboard</a>
+  <span><p style="color:white;">Total {{total_in_usd |floatformat:2}}$ | {{total_in_rub |floatformat:2}}₽</p></span>
+
+</nav>
+
+<div class="main">
+
+  <div class="col-md-4 my-custom">
+    <table class="table table-dark">
+      <thead>
+      <tr>
+        <th scope="col">Row id</th>
+        <th scope="col">Order id</th>
+        <th scope="col">Delivery date</th>
+        <th scope="col">Price in usd</th>
+        <th scope="col">Price in rub</th>
+        <th scope="col">Last Modified</th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for record in records%}
+
+      <tr>
+        <th scope="row">{{record.row_id}}</th>
+        <td>{{record.order_id}}</td>
+        <td>{{record.delivery_date | date:"d M Y"}}</td>
+        <td>{{record.price}}</td>
+        <td>{{record.price_in_rub}}</td>
+        <td>{{record.updated | timesince}} ago</td>
+
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="chart-container" style=" height:40vh; width:60vw">
+    <canvas id="myChart" width="1500" height="1000"></canvas>
+
+    <script>
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    options: {
+    scales: {
+      xAxes: [{
+        type: 'date',
+      }]
+    }
+    },
+    data: {
+        labels: {{dates | safe}},
+        datasets: [{
+            label: '# of Votes',
+            data: {{prices | safe}},
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+    </script>
+    <!--    <div id="chart_div" style="width: 100%; height: 700px;"></div>-->
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+          integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+          integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+          crossorigin="anonymous"></script>
+  <script src="{% static 'main.js'%}"></script>
+
 </body>
 </html>

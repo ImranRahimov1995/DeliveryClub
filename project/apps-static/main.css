@@ -1,0 +1,24 @@
+.main{
+    display: flex;
+ }
+
+.extra{
+  margin-bottom: 15px;
+}
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: .45rem;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(27, 27, 27, .4);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-track{
+    background: transparent;
+}
+
+.my-custom{
+  height: 45rem;
+  overflow-y: auto;
+  width: 50rem;
+}

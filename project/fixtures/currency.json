@@ -1,0 +1,12 @@
+[
+  {
+    "model": "core.currencystorage",
+    "pk": 1,
+    "fields": {
+      "created": "2022-07-29T11:54:50.323Z",
+      "updated": "2022-07-29T11:54:50.323Z",
+      "char_code": "USD",
+      "value": "65.0000"
+    }
+  }
+]

@@ -1,6 +1,7 @@
 from django.db import models
 
 from utils.models.timestamp import TimeStamp
+from utils.currency_converter import convert_to_rub, Currency
 
 
 class DeliveryRecord(TimeStamp):
@@ -36,3 +37,16 @@ class DeliveryRecord(TimeStamp):
 
     def __str__(self):
         return str(self.order_id)
+
+    def save(self, *args, **kwargs):
+        """
+            Каждый раз при сохранении или обновлении,
+            будет ковертироваться валюта из price
+            и сохраниться в price in rub
+        """
+
+        self.price_in_rub = convert_to_rub(
+            Currency(char_code="USD", value=self.price)
+        )
+
+        super().save(*args, **kwargs)

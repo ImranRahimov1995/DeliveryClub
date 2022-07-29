@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Local apps
+    'apps.delivery_club',
 
     # 3rd-party apps
 

@@ -7,7 +7,6 @@ from apps.delivery_club.models import DeliveryRecord
 
 
 class TelegramBot:
-    bot = TeleBot(settings.TELEGRAM_TOKEN)
 
     @classmethod
     def send_notification(cls, instance: DeliveryRecord) -> None:
@@ -16,6 +15,8 @@ class TelegramBot:
             в базе данных уведомление.
 
         """
+        bot = TeleBot(settings.TELEGRAM_TOKEN)
+
         message = f"Время доставки заказа номер {instance.order_id} иссякло."
 
         cls.sync_new_subscribers()
@@ -23,7 +24,7 @@ class TelegramBot:
         subscribers = Subscriber.objects.all()
 
         for subscriber in subscribers:
-            cls.bot.send_message(
+            bot.send_message(
                 subscriber.chat_id,
                 message
             )

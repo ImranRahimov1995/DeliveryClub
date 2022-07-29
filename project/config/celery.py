@@ -16,6 +16,14 @@ app.conf.beat_schedule = {
         'task': 'apps.core.celery_tasks.currency_control',
         'schedule': crontab(hour="*/1"),
     },
+    'sync_with_remote_table': {
+        'task': 'apps.core.celery_tasks.sync_with_remote_table',
+        'schedule': 10,
+    },
+    'delete_unnecessary_records': {
+        'task': 'apps.core.celery_tasks.delete_unnecessary_records',
+        'schedule': 25,
+    },
 }
 
 app.conf.timezone = 'Europe/Moscow'
